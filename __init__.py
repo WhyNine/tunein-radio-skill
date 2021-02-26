@@ -43,7 +43,8 @@ class TuneinRadio(CommonPlaySkill):
             return None
         r_confidence = 0
         match, confidence = match_one(phrase, matches)
-        LOGGER.info(f'Match level {confidence} for {stations[matches[match]]["name"]}')
+        matched_station = stations[matches[match]]
+        LOGGER.info(f'Match level {confidence} for {matched_station["name"]}')
         if "radio" not in phrase:
             r_match, r_confidence = match_one(phrase + " radio", matches)
             LOGGER.info(f'Match level {r_confidence} for {stations[matches[r_match]]["name"]}')
