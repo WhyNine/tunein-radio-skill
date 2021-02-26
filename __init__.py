@@ -64,6 +64,7 @@ class TuneinRadio(CommonPlaySkill):
     def CPS_start(self, phrase, data):
         url = data["url"]
         name = data["name"]
+        LOGGER.info(f"About to play {name}")
         self.speak_dialog('start', data={"station": name}, wait=False)
         self.stop()
         self.CPS_play(url, utterance=self.backend)
