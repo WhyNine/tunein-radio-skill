@@ -50,17 +50,17 @@ class TuneinRadio(CommonPlaySkill):
             r_match, r_confidence = match_one(r_phrase, matches)
             LOGGER.info(f'Match level {r_confidence} for {stations[r_match]["name"]}')
         if confidence == 1:
-            return (phrase, CPSMatchLevel.EXACT, match)
+            return (phrase, CPSMatchLevel.EXACT, stations[match])
         if r_confidence == 1:
-            return (r_phrase, CPSMatchLevel.EXACT, r_match)
+            return (r_phrase, CPSMatchLevel.EXACT, stations[r_match])
         if confidence > 0.8:
-            return (phrase, CPSMatchLevel.MULTI_KEY, match)
+            return (phrase, CPSMatchLevel.MULTI_KEY, stations[match])
         if r_confidence > 0.8:
-            return (r_phrase, CPSMatchLevel.MULTI_KEY, r_match)
+            return (r_phrase, CPSMatchLevel.MULTI_KEY, stations[r_match])
         if confidence > 0.6:
-            return (phrase, CPSMatchLevel.TITLE, match)
+            return (phrase, CPSMatchLevel.TITLE, stations[match])
         if r_confidence > 0.6:
-            return (r_phrase, CPSMatchLevel.TITLE, r_match)
+            return (r_phrase, CPSMatchLevel.TITLE, stations[r_match])
         return None
 
     def CPS_start(self, phrase, data):
