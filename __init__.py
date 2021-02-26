@@ -30,11 +30,11 @@ class TuneinRadio(CommonPlaySkill):
         station_name = ""
         self.stations = {}
         for entry in entries:
-        if (entry.getAttribute("type") == "audio") and (entry.getAttribute("item") == "station") and (entry.getAttribute("key") != "unavailable"):
-            station_url = entry.getAttribute("URL")
-            station_name = entry.getAttribute("text")
-            LOGGER.info(f"{station_name}: {station_url}\n")
-            self.stations[station_name] = station_url
+            if (entry.getAttribute("type") == "audio") and (entry.getAttribute("item") == "station") and (entry.getAttribute("key") != "unavailable"):
+                station_url = entry.getAttribute("URL")
+                station_name = entry.getAttribute("text")
+                LOGGER.info(f"{station_name}: {station_url}\n")
+                self.stations[station_name] = station_url
         if (station_name == ""):
             return None
         r_confidence = 0
