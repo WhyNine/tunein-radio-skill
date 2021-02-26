@@ -36,40 +36,32 @@ class TuneinRadio(CommonPlaySkill):
                 station_url = entry.getAttribute("URL")
                 station_name = entry.getAttribute("text")
                 LOGGER.info(f"{station_name}: {station_url}\n")
-                self.stations[station_name.lower()] = station_url
+                self.stations[station_name.lower()] = {"url": station_url, "name": station_name}
         if (station_name == ""):
             return None
         r_confidence = 0
         match, confidence = match_one(phrase, self.stations)
         if "radio" not in phrase:
             r_match, r_confidence = match_one(phrase + " radio", self.stations)
-        key_list = list(self.stations.keys())
-        val_list = list(self.stations.values())
-        pos = val_list.index(match)
-        r_pos = val_list.index(r_match)
-        station = key_list[pos]
-        LOGGER.info(f'Match level {confidence} for {key_list[pos]}')
-        LOGGER.info(f'Match level {r_confidence} for {key_list[r_pos]}')
+        LOGGER.info(f'Match level {confidence} for {match["name"]}')
+        LOGGER.info(f'Match level {r_confidence} for {r_match["name"]}')
         if confidence == 1:
-            return (match, CPSMatchLevel.EXACT, {"url": match})
+            return (match, CPSMatchLevel.EXACT, match)
         if r_confidence == 1:
-            return (r_match, CPSMatchLevel.EXACT, {"url": r_match})
+            return (r_match, CPSMatchLevel.EXACT, r_match)
         if confidence > 0.8:
-            return (match, CPSMatchLevel.MULTI_KEY, {"url": match})
+            return (match, CPSMatchLevel.MULTI_KEY, match)
         if r_confidence > 0.8:
-            return (r_match, CPSMatchLevel.MULTI_KEY, {"url": r_match})
+            return (r_match, CPSMatchLevel.MULTI_KEY, r_match)
         return None
 
     def CPS_start(self, phrase, data):
         url = data["url"]
-        key_list = list(self.stations.keys())
-        val_list = list(self.stations.values())
-        pos = val_list.index(url)
-        station = key_list[pos]
+        name = data["name"]
+        self.speak_dialog('start', data={"station": name}, wait=False)
         self.stop()
         self.CPS_play(url, utterance=self.backend)
         LOGGER.info(f"Playing from \n{url}")
-        self.speak_dialog('start', data={"station": station}, wait=False)
 
 
     def on_settings_changed(self):
