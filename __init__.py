@@ -30,21 +30,23 @@ class TuneinRadio(CommonPlaySkill):
         entries = dom.getElementsByTagName("outline")
         station_url = ""
         station_name = ""
-        self.stations = {}
+        matches = {}
+        stations = {}
         for entry in entries:
             if (entry.getAttribute("type") == "audio") and (entry.getAttribute("item") == "station") and (entry.getAttribute("key") != "unavailable"):
                 station_url = entry.getAttribute("URL")
                 station_name = entry.getAttribute("text")
                 LOGGER.info(f"{station_name}: {station_url}\n")
-                self.stations[station_name.lower()] = {"url": station_url, "name": station_name}
+                stations[station_name] = {"url": station_url, "name": station_name}
+                matches[station_name.lower()] = station_name
         if (station_name == ""):
             return None
         r_confidence = 0
-        match, confidence = match_one(phrase, self.stations)
+        match, confidence = match_one(phrase, matches)
+        LOGGER.info(f'Match level {confidence} for {stations[matches[match]]["name"]}')
         if "radio" not in phrase:
-            r_match, r_confidence = match_one(phrase + " radio", self.stations)
-        LOGGER.info(f'Match level {confidence} for {match["name"]}')
-        LOGGER.info(f'Match level {r_confidence} for {r_match["name"]}')
+            r_match, r_confidence = match_one(phrase + " radio", matches)
+            LOGGER.info(f'Match level {r_confidence} for {stations[matches[r_match]]["name"]}')
         if confidence == 1:
             return (match, CPSMatchLevel.EXACT, match)
         if r_confidence == 1:
@@ -53,6 +55,10 @@ class TuneinRadio(CommonPlaySkill):
             return (match, CPSMatchLevel.MULTI_KEY, match)
         if r_confidence > 0.8:
             return (r_match, CPSMatchLevel.MULTI_KEY, r_match)
+        if confidence > 0.6:
+            return (match, CPSMatchLevel.TITLE, match)
+        if r_confidence > 0.6:
+            return (r_match, CPSMatchLevel.TITLE, r_match)
         return None
 
     def CPS_start(self, phrase, data):
