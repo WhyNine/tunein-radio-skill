@@ -18,6 +18,7 @@ class TuneinRadio(CommonPlaySkill):
         self.settings_change_callback = self.on_settings_changed
         self.get_settings()
         self.audio = AudioService(self.bus)
+        self.spoken_name = "Tune In Radio"
         backends = self.audio.available_backends()
         self.backend = {}
         if "vlc" in backends.keys():
