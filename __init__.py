@@ -25,7 +25,6 @@ class TuneinRadio(CommonPlaySkill):
             LOGGER.info("Set vlc as backend to be used")
         
     def CPS_match_query_phrase(self, phrase):
-        LOGGER.info(f"Phrase is {phrase}")
         res = requests.get(f"{BASE_URL}?query={phrase}")
         dom = parseString(res.text)
         entries = dom.getElementsByTagName("outline")
@@ -44,8 +43,13 @@ class TuneinRadio(CommonPlaySkill):
         match, confidence = match_one(phrase, self.stations)
         if "radio" not in phrase:
             r_match, r_confidence = match_one(phrase + " radio", self.stations)
-        LOGGER.info(f'Match level {confidence} for {phrase}')
-        LOGGER.info(f'Match level {r_confidence} for {phrase} radio')
+        key_list = list(self.stations.keys())
+        val_list = list(self.stations.values())
+        pos = val_list.index(match)
+        r_pos = val_list.index(r_match)
+        station = key_list[pos]
+        LOGGER.info(f'Match level {confidence} for {key_list[pos]}')
+        LOGGER.info(f'Match level {r_confidence} for {key_list[r_pos]}')
         if confidence == 1:
             return (match, CPSMatchLevel.EXACT, {"url": match})
         if r_confidence == 1:
