@@ -25,6 +25,7 @@ class TuneinRadio(CommonPlaySkill):
             LOGGER.info("Set vlc as backend to be used")
         
     def CPS_match_query_phrase(self, phrase):
+        LOGGER.info(f"Phrase is {phrase}")
         res = requests.get(f"{BASE_URL}?query={phrase}")
         dom = parseString(res.text)
         entries = dom.getElementsByTagName("outline")
