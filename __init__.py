@@ -36,7 +36,7 @@ class TuneinRadio(CommonPlaySkill):
                 station_url = entry.getAttribute("URL")
                 station_name = entry.getAttribute("text")
                 LOGGER.info(f"{station_name}: {station_url}\n")
-                self.stations[station_name] = station_url
+                self.stations[station_name.lower()] = station_url
         if (station_name == ""):
             return None
         r_confidence = 0
