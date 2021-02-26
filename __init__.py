@@ -42,23 +42,24 @@ class TuneinRadio(CommonPlaySkill):
         if (station_name == ""):
             return None
         r_confidence = 0
+        r_phrase = phrase + " radio"
         match, confidence = match_one(phrase, matches)
         LOGGER.info(f'Match level {confidence} for {stations[match]["name"]}')
         if "radio" not in phrase:
-            r_match, r_confidence = match_one(phrase + " radio", matches)
+            r_match, r_confidence = match_one(r_phrase, matches)
             LOGGER.info(f'Match level {r_confidence} for {stations[r_match]["name"]}')
         if confidence == 1:
-            return (match, CPSMatchLevel.EXACT, match)
+            return (phrase, CPSMatchLevel.EXACT, match)
         if r_confidence == 1:
-            return (r_match, CPSMatchLevel.EXACT, r_match)
+            return (r_phrase, CPSMatchLevel.EXACT, r_match)
         if confidence > 0.8:
-            return (match, CPSMatchLevel.MULTI_KEY, match)
+            return (phrase, CPSMatchLevel.MULTI_KEY, match)
         if r_confidence > 0.8:
-            return (r_match, CPSMatchLevel.MULTI_KEY, r_match)
+            return (r_phrase, CPSMatchLevel.MULTI_KEY, r_match)
         if confidence > 0.6:
-            return (match, CPSMatchLevel.TITLE, match)
+            return (phrase, CPSMatchLevel.TITLE, match)
         if r_confidence > 0.6:
-            return (r_match, CPSMatchLevel.TITLE, r_match)
+            return (r_phrase, CPSMatchLevel.TITLE, r_match)
         return None
 
     def CPS_start(self, phrase, data):
