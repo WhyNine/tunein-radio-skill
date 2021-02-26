@@ -1,3 +1,4 @@
+from mycroft import MycroftSkill
 from mycroft.util.log import getLogger
 from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
 from mycroft.skills.audioservice import AudioService
