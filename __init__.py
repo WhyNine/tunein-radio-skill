@@ -5,6 +5,7 @@ from mycroft.skills.audioservice import AudioService
 from mycroft.util.parse import match_one
 from xml.dom.minidom import parseString
 import requests
+import re
 import sys
 
 LOGGER = getLogger(__name__)
@@ -24,8 +25,50 @@ class TuneinRadio(CommonPlaySkill):
         if "vlc" in backends.keys():
             self.backend["vlc"] = backends["vlc"]
             LOGGER.debug("Set vlc as backend to be used")
-        
+
+    # Get the correct localized regex
+    def translate_regex(self, regex):
+        if regex not in self.regexes:
+            path = self.find_resource(regex + '.regex')
+            if path:
+                with open(path) as f:
+                    string = f.read().strip()
+                self.regexes[regex] = string
+        return self.regexes[regex]
+
     def CPS_match_query_phrase(self, phrase):
+
+        # Play <data> internet radio on tune in
+        match = re.search(self.translate_regex('internet_radio_on_tunein'), phrase)
+        if match:
+            data = re.sub(self.translate_regex('internet_radio_on_tunein'), '', phrase)
+            LOG.info(f"Match (internet_radio_on_tunein): {data}")
+
+        # Play <data> radio on tune in
+        match = re.search(self.translate_regex('radio_on_tunein'), phrase)
+        if match:
+            data = re.sub(self.translate_regex('radio_on_tunein'), '', phrase)
+            LOG.info(f"CPS Match (radio_on_tunein): {data}")
+
+        # Play <data> on tune in
+        match = re.search(self.translate_regex('on_tunein'), phrase)
+        if match:
+            data = re.sub(self.translate_regex('on_tunein'), '', phrase)
+            LOG.info(f"CPS Match (on_tunein): {data}")
+
+        # Play <data> internet radio
+        match = re.search(self.translate_regex('internet_radio'), phrase)
+        if match:
+            data = re.sub(self.translate_regex('internet_radio'), '', phrase)
+            LOG.info(f"CPS Match (internet_radio): {data}")
+
+        # Play <data> radio
+        match = re.search(self.translate_regex('radio'), phrase)
+        if match:
+            data = re.sub(self.translate_regex('radio'), '', phrase)
+            LOG.info(f"CPS Match (radio): {data}")
+
+
         alias = False
         if phrase in self.aliases.keys():
             LOGGER.info(f"Using alias {self.aliases[phrase]}")

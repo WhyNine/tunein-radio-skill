@@ -31,4 +31,5 @@
 python:
   - requests
   - xml.dom.minidom
+  - re
   
