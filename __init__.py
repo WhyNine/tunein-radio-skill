@@ -29,7 +29,7 @@ class TuneinRadio(CommonPlaySkill):
         alias = False
         if phrase in self.aliases.keys():
             LOGGER.info(f"Using alias {self.aliases[phrase]}")
-            phrase = self.aliases[phrase]
+            phrase = self.aliases[phrase].lower()
             alias = True
         res = requests.get(f"{BASE_URL}?query={phrase}")
         dom = parseString(res.text)
@@ -83,7 +83,7 @@ class TuneinRadio(CommonPlaySkill):
         self.aliases = {}
         for i in range(1, 6):
             name = self.settings.get(f'name{i}', "")
-            alias = self.settings.get(f'alias{i}', "")
+            alias = self.settings.get(f'alias{i}', "").lower()
             if (len(name) > 1) and (len(alias) > 1):
                 self.aliases[alias] = name
 
