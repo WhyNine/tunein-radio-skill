@@ -27,7 +27,7 @@ class TuneinRadio(CommonPlaySkill):
         
     def CPS_match_query_phrase(self, phrase):
         alias = False
-        if phrase in self.aliases.keys()
+        if phrase in self.aliases.keys():
             LOGGER.info(f"Using alias {self.aliases[phrase]}")
             phrase = self.aliases[phrase]
             alias = True
