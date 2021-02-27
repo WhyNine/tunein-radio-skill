@@ -1,22 +1,57 @@
 
 skillMetadata:
   sections:
-    - name: Options << Name of section
-      fields:
-        - name: internal_python_variable_name
-          type: text
-          label: Setting Friendly Display Name
-          value: ""
-          placeholder: demo prompt in the input box
-    - name: Login << Name of another section
+    - name: TuneIn radio
       fields:
         - type: label
-          label: Just a little bit of extra info for the user to understand following settings
-        - name: username
+          label: This skill uses TuneIn to give you access to thousands of radio channels. Enter below aliases for some of the channels. 
+    - name: Channel alias
+      fields:
+        - name: name1
           type: text
-          label: Username
+          label: Official channel name
           value: ""
-        - name: password
-          type: password
-          label: Password
+        - name: alias1
+          type: text
+          label: Channel alias
+          value: ""
+    - name: Channel alias
+      fields:
+        - name: name2
+          type: text
+          label: Official channel name
+          value: ""
+        - name: alias2
+          type: text
+          label: Channel alias
+          value: ""
+    - name: Channel alias
+      fields:
+        - name: name3
+          type: text
+          label: Official channel name
+          value: ""
+        - name: alias3
+          type: text
+          label: Channel alias
+          value: ""
+    - name: Channel alias
+      fields:
+        - name: name4
+          type: text
+          label: Official channel name
+          value: ""
+        - name: alias4
+          type: text
+          label: Channel alias
+          value: ""
+    - name: Channel alias
+      fields:
+        - name: name5
+          type: text
+          label: Official channel name
+          value: ""
+        - name: alias1
+          type: text
+          label: Channel alias
           value: ""
