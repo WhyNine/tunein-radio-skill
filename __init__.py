@@ -42,12 +42,12 @@ class TuneinRadio(CommonPlaySkill):
             match = re.search(self.translate_regex(regex), phrase)
             if match:
                 data = re.sub(self.translate_regex(regex), '', phrase)
-                LOGGER.info(f"Found '{data}' with '{regex} in '{phrase}'")
+                LOGGER.debug(f"Found '{data}' with '{regex} in '{phrase}'")
                 phrase = data
                 break
         alias = False
         if phrase in self.aliases.keys():
-            LOGGER.info(f"Using alias {self.aliases[phrase]}")
+            LOGGER.debug(f"Using alias {self.aliases[phrase]}")
             phrase = self.aliases[phrase].lower()
             alias = True
         res = requests.get(f"{BASE_URL}?query={phrase}")
