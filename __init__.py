@@ -38,25 +38,13 @@ class TuneinRadio(CommonPlaySkill):
         return self.regexes[regex]
 
     def CPS_match_query_phrase(self, phrase):
-
-        # Play <data> internet radio on tune in
-        match = re.search(self.translate_regex('internet_radio_on_tunein'), phrase)
-        if match:
-            data = re.sub(self.translate_regex('internet_radio_on_tunein'), '', phrase)
-            LOGGER.info(f"Match (internet_radio_on_tunein): {data}")
-
-        # Play <data> on tune in
-        match = re.search(self.translate_regex('on_tunein'), phrase)
-        if match:
-            data = re.sub(self.translate_regex('on_tunein'), '', phrase)
-            LOGGER.info(f"CPS Match (on_tunein): {data}")
-
-        # Play <data> internet radio
-        match = re.search(self.translate_regex('internet_radio'), phrase)
-        if match:
-            data = re.sub(self.translate_regex('internet_radio'), '', phrase)
-            LOGGER.info(f"CPS Match (internet_radio): {data}")
-
+        for regex in ['internet_radio_on_tunein', 'on_tunein', 'internet_radio']:
+            match = re.search(self.translate_regex(regex), phrase)
+            if match:
+                data = re.sub(self.translate_regex(regex), '', phrase)
+                LOGGER.info(f"Found '{data}' with '{regex} in '{phrase}'")
+                phrase = data
+                break
         alias = False
         if phrase in self.aliases.keys():
             LOGGER.info(f"Using alias {self.aliases[phrase]}")
