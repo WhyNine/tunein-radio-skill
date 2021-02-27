@@ -26,7 +26,7 @@ class TuneinRadio(CommonPlaySkill):
             self.backend["vlc"] = backends["vlc"]
             LOGGER.debug("Set vlc as backend to be used")
         self.regexes = {}
-        
+
     # Get the correct localized regex
     def translate_regex(self, regex):
         if regex not in self.regexes:
@@ -43,32 +43,19 @@ class TuneinRadio(CommonPlaySkill):
         match = re.search(self.translate_regex('internet_radio_on_tunein'), phrase)
         if match:
             data = re.sub(self.translate_regex('internet_radio_on_tunein'), '', phrase)
-            LOG.info(f"Match (internet_radio_on_tunein): {data}")
-
-        # Play <data> radio on tune in
-        match = re.search(self.translate_regex('radio_on_tunein'), phrase)
-        if match:
-            data = re.sub(self.translate_regex('radio_on_tunein'), '', phrase)
-            LOG.info(f"CPS Match (radio_on_tunein): {data}")
+            LOGGER.info(f"Match (internet_radio_on_tunein): {data}")
 
         # Play <data> on tune in
         match = re.search(self.translate_regex('on_tunein'), phrase)
         if match:
             data = re.sub(self.translate_regex('on_tunein'), '', phrase)
-            LOG.info(f"CPS Match (on_tunein): {data}")
+            LOGGER.info(f"CPS Match (on_tunein): {data}")
 
         # Play <data> internet radio
         match = re.search(self.translate_regex('internet_radio'), phrase)
         if match:
             data = re.sub(self.translate_regex('internet_radio'), '', phrase)
-            LOG.info(f"CPS Match (internet_radio): {data}")
-
-        # Play <data> radio
-        match = re.search(self.translate_regex('radio'), phrase)
-        if match:
-            data = re.sub(self.translate_regex('radio'), '', phrase)
-            LOG.info(f"CPS Match (radio): {data}")
-
+            LOGGER.info(f"CPS Match (internet_radio): {data}")
 
         alias = False
         if phrase in self.aliases.keys():
