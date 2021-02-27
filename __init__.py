@@ -25,7 +25,8 @@ class TuneinRadio(CommonPlaySkill):
         if "vlc" in backends.keys():
             self.backend["vlc"] = backends["vlc"]
             LOGGER.debug("Set vlc as backend to be used")
-
+        self.regexes = {}
+        
     # Get the correct localized regex
     def translate_regex(self, regex):
         if regex not in self.regexes:
