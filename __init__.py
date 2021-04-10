@@ -24,6 +24,8 @@ class TuneinRadio(CommonPlaySkill):
         self.backend = {}
         if "vlc" in backends.keys():
             self.backend["vlc"] = backends["vlc"]
+            self.backend["vlc"]["normal_volume"] = 100
+            self.backend["vlc"]["duck_volume"] = 30
             LOGGER.debug("Set vlc as backend to be used")
         self.regexes = {}
 
