@@ -27,9 +27,9 @@
 #   # Require the installation of other skills before installing this skill
 #   skill:
 #     - my-other-skill
-
-python:
-  - requests
-  - xml.dom.minidom
-  - re
+dependencies:
+  python:
+    - requests
+    - xml.dom.minidom
+    - re
   
