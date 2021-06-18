@@ -6,7 +6,6 @@ from mycroft.util.parse import match_one
 from xml.dom.minidom import parseString
 import requests
 import re
-import sys
 
 LOGGER = getLogger(__name__)
 BASE_URL = "http://opml.radiotime.com/Search.ashx"
