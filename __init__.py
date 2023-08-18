@@ -15,15 +15,6 @@ class TuneinRadio(CommonPlaySkill):
     def __init__(self):
         MycroftSkill.__init__(self)
 
-    def wake_up_recognizer(self):
-        LOGGER.info("Waking up recognizer")
-        self.bus.emit(Message('recognizer_loop:wake_up'))
-
-    def sleep_recognizer(self):
-        LOGGER.info("Sleeping recognizer")
-        self.bus.emit(Message('recognizer_loop:sleep'))
-        self.add_event("mycroft.stop.handled", self.wake_up_recognizer, once=True)
-
     def initialize(self):
         self.settings_change_callback = self.on_settings_changed
         self.get_settings()
@@ -104,7 +95,6 @@ class TuneinRadio(CommonPlaySkill):
         self.stop()
         self.speak_dialog('start', data={"station": name}, wait=True)
         LOGGER.info(f"About to play {name} from \n{url}")
-        self.add_event("mycroft.audio.service.play", self.sleep_recognizer, once=True)
         self.CPS_play(url, utterance=self.backend)
 
     def on_settings_changed(self):
