@@ -49,7 +49,7 @@ class TuneinRadio(CommonPlaySkill):
                 break
         alias = False
         if phrase in self.aliases.keys():
-            LOGGER.debug(f"Using alias {self.aliases[phrase]}")
+            LOGGER.info(f"Using alias {self.aliases[phrase]}")
             phrase = self.aliases[phrase].lower()
             alias = True
         res = requests.get(f"{BASE_URL}?query={phrase}")
@@ -71,10 +71,10 @@ class TuneinRadio(CommonPlaySkill):
         r_confidence = 0
         r_phrase = phrase + " radio"
         match, confidence = match_one(phrase, matches)
-        LOGGER.debug(f'Match level {confidence} for {stations[match]["name"]}')
+        LOGGER.info(f'Match level {confidence} for {stations[match]["name"]}')
         if (not alias) and ("radio" not in phrase):
             r_match, r_confidence = match_one(r_phrase, matches)
-            LOGGER.debug(f'Match level {r_confidence} for {stations[r_match]["name"]}')
+            LOGGER.info(f'Match level {r_confidence} for {stations[r_match]["name"]}')
         if confidence == 1:
             return (phrase, CPSMatchLevel.EXACT, stations[match])
         if r_confidence == 1:
